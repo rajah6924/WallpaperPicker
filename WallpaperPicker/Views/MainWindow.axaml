@@ -1,0 +1,30 @@
+<Window
+    xmlns:vm="using:WallpaperPicker.ViewModels"
+    xmlns:models="using:WallpaperPicker.Models"
+    x:DataType="vm:MainViewModel"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    x:Class="WallpaperPicker.Views.MainWindow"
+    Title="Wallpaper Browser"
+    Width="800"
+    Height="600">
+
+    <ListBox
+        ItemsSource="{Binding Wallpapers}"
+        SelectedItem="{Binding SelectedWallpaper}">
+        <ListBox.ItemTemplate>
+            <DataTemplate x:DataType="models:Wallpaper">
+                <StackPanel Orientation="Horizontal" Spacing="10">
+                    <Image Source="{Binding Image}"
+                           Width="128"
+                           Height="72"/>
+                    <TextBlock Text="{Binding Id}"/>
+                </StackPanel>
+            </DataTemplate>
+        </ListBox.ItemTemplate>
+    </ListBox>
+
+</Window>
