@@ -9,7 +9,7 @@ namespace WallpaperPicker.ViewModels;
 public partial class MainViewModel : ViewModelBase
 {
     public ObservableCollection<Wallpaper> Wallpapers { get; } = [];
-
+    private Process? _currentWallpaperProcess;
     private Wallpaper? _selectedWallpaper;
     public Wallpaper? SelectedWallpaper
     {
@@ -35,8 +35,14 @@ public partial class MainViewModel : ViewModelBase
 
     private void WallpaperClicked(Wallpaper wallpaper)
     {
-        // linux-wallpaperengine --screen-root <MONITOR_NAME> --bg <WALLPAPER_ID>   
-        Process.Start(new ProcessStartInfo
+        if (_currentWallpaperProcess != null && !_currentWallpaperProcess.HasExited)
+        {
+            _currentWallpaperProcess.Kill();
+            _currentWallpaperProcess.WaitForExit();
+            _currentWallpaperProcess.Dispose();
+        }
+
+        _currentWallpaperProcess = Process.Start(new ProcessStartInfo
         {
             FileName = "linux-wallpaperengine",
             Arguments = $"--screen-root DP-2 --bg {wallpaper.Id}",
