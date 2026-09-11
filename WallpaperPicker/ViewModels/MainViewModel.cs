@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using WallpaperPicker.Models;
 using WallpaperPicker.Services;
 
@@ -11,6 +12,8 @@ public partial class MainViewModel : ViewModelBase
     public ObservableCollection<Wallpaper> Wallpapers { get; } = [];
     private Process? _currentWallpaperProcess;
     private Wallpaper? _selectedWallpaper;
+    public IRelayCommand StopWallpaperCommand { get; }
+
     public Wallpaper? SelectedWallpaper
     {
         get => _selectedWallpaper;
@@ -25,6 +28,8 @@ public partial class MainViewModel : ViewModelBase
 
     public MainViewModel()
     {
+        StopWallpaperCommand = new RelayCommand(StopWallpaper);
+
         var service = new WallpaperService();
 
         foreach (var wallpaper in service.LoadWallpapers())
@@ -35,12 +40,7 @@ public partial class MainViewModel : ViewModelBase
 
     private void WallpaperClicked(Wallpaper wallpaper)
     {
-        if (_currentWallpaperProcess != null && !_currentWallpaperProcess.HasExited)
-        {
-            _currentWallpaperProcess.Kill();
-            _currentWallpaperProcess.WaitForExit();
-            _currentWallpaperProcess.Dispose();
-        }
+        StopWallpaper();
 
         _currentWallpaperProcess = Process.Start(new ProcessStartInfo
         {
@@ -48,5 +48,22 @@ public partial class MainViewModel : ViewModelBase
             Arguments = $"--screen-root DP-2 --bg {wallpaper.Id}",
             UseShellExecute = false
         });
+    }
+
+    private void StopWallpaper()
+    {
+        if (_currentWallpaperProcess is not { } process)
+        {
+            return;
+        }
+
+        if (!process.HasExited)
+        {
+            process.Kill();
+            process.WaitForExit();
+        }
+
+        process.Dispose();
+        _currentWallpaperProcess = null;
     }
 }

@@ -9,7 +9,7 @@ public class WallpaperService
 {
     public List<Wallpaper> LoadWallpapers()
     {
-        const string rootPath = "/home/rajah_6924/.local/share/Steam/steamapps/workshop/content/431960/";
+        const string rootPath = "/home/rajah_6924/.local/share/Steam/steamapps/workshop/content/431960/"; // to redo for general case use
         List<Wallpaper> wallpaperList = new();
         
         if (!Directory.Exists(rootPath))
@@ -30,8 +30,7 @@ public class WallpaperService
                     imagePath = Path.ChangeExtension(imagePath, ".gif");
                     if (!File.Exists(imagePath))
                     {
-                        imagePath =
-                            "/home/rajah_6924/RiderProjects/WallpaperPicker/WallpaperPicker/Assets/warningEmoji.svg";
+                        imagePath = "/home/rajah_6924/RiderProjects/WallpaperPicker/WallpaperPicker/Assets/warningEmoji.svg"; // to redo for general case use
                     }
                 }
                 Wallpaper wallpaper = new(id, imagePath);
@@ -39,7 +38,7 @@ public class WallpaperService
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                Console.WriteLine($"Something went wrong: {e}");
                 throw;
             }
         }

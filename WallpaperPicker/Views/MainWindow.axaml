@@ -12,19 +12,29 @@
     Width="800"
     Height="600">
 
-    <ListBox
-        ItemsSource="{Binding Wallpapers}"
-        SelectedItem="{Binding SelectedWallpaper}">
-        <ListBox.ItemTemplate>
-            <DataTemplate x:DataType="models:Wallpaper">
-                <StackPanel Orientation="Horizontal" Spacing="10">
-                    <Image Source="{Binding Image}"
-                           Width="128"
-                           Height="72"/>
-                    <TextBlock Text="{Binding Id}"/>
-                </StackPanel>
-            </DataTemplate>
-        </ListBox.ItemTemplate>
-    </ListBox>
+    <Grid RowDefinitions="Auto,*">
+        <Button
+            Grid.Row="0"
+            HorizontalAlignment="Right"
+            Content="Stop wallpaper"
+            Command="{Binding StopWallpaperCommand}"
+            Margin="0,0,0,8"/>
+
+        <ListBox
+            Grid.Row="1"
+            ItemsSource="{Binding Wallpapers}"
+            SelectedItem="{Binding SelectedWallpaper}">
+            <ListBox.ItemTemplate>
+                <DataTemplate x:DataType="models:Wallpaper">
+                    <StackPanel Orientation="Horizontal" Spacing="10">
+                        <Image Source="{Binding Image}"
+                               Width="128"
+                               Height="72"/>
+                        <TextBlock Text="{Binding Id}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </Grid>
 
 </Window>
