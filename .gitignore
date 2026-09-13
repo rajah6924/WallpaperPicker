@@ -1,5 +1,28 @@
+# Build output
 bin/
 obj/
-/packages/
-riderModule.iml
-/_ReSharper.Caches/
+
+# Rider / JetBrains
+.idea/
+*.sln.iml
+
+# Visual Studio
+.vs/
+*.user
+*.userosscache
+*.suo
+
+# .NET
+*.dll
+*.exe
+*.pdb
+
+# NuGet
+packages/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Publish output
+publish/
